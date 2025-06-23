@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const { limit = 12, page = 1, fields, match, category_ids, price_range } = req.query;
+    const { limit = 12, page = 1, match, category_ids, price_range } = req.query;
     const where = {};
 
     if (match) {
@@ -85,19 +85,21 @@ exports.createProduct = async (req, res) => {
       price_with_discount,
     });
 
-    if (category_ids) await newProduct.setCategories(category_ids);
+    if (category_ids?.length) {
+      await newProduct.setCategories(category_ids);
+    }
 
-    if (images) {
+    if (images?.length) {
       for (const img of images) {
         await ProductImage.create({
           product_id: newProduct.id,
           enabled: true,
-          path: 'uploads/fake/' + Date.now() + '.png', 
+          path: 'uploads' + Date.now() + '.png', 
         });
       }
     }
 
-    if (options) {
+    if (options?.length) {
       for (const opt of options) {
         await ProductOption.create({
           product_id: newProduct.id,

@@ -1,75 +1,42 @@
-const { Category } = require('../models');
+import React, { useEffect, useState } from 'react';
 
-exports.getAllCategories = async (req, res) => {
-  try {
-    const { limit = 12, page = 1, fields, use_in_menu } = req.query;
+const CategoryList = () => {
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    const where = {};
-    if (use_in_menu) where.use_in_menu = use_in_menu === 'true';
+  useEffect(() => {
+    fetch('https://backend-api-9fdu.onrender.com/v1/categories?limit=12&page=1')
+      .then((res) => {
+        if (!res.ok) throw new Error('Erro ao carregar categorias');
+        return res.json();
+      })
+      .then((data) => {
+        setCategories(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
-    const selectedFields = fields ? fields.split(',') : undefined;
+  if (loading) return <p>Carregando categorias...</p>;
+  if (error) return <p>Erro: {error}</p>;
 
-    const categories = await Category.findAndCountAll({
-      where,
-      attributes: selectedFields,
-      limit: limit == -1 ? null : parseInt(limit),
-      offset: limit == -1 ? null : (parseInt(page) - 1) * parseInt(limit),
-    });
-
-    res.status(200).json({
-      data: categories.rows,
-      total: categories.count,
-      limit: parseInt(limit),
-      page: parseInt(page),
-    });
-  } catch (error) {
-    res.status(400).json({ message: 'Erro ao buscar categorias', error: error.message });
-  }
+  return (
+    <section className="category-list">
+      <h2>Categorias</h2>
+      <ul>
+        {categories.map((cat) => (
+          <li key={cat.id}>
+            <strong>{cat.name}</strong>
+            {cat.use_in_menu && <span> (Usada no menu)</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 };
 
-exports.getCategoryById = async (req, res) => {
-  try {
-    const category = await Category.findByPk(req.params.id);
-    if (!category) return res.status(404).json({ message: 'Categoria não encontrada' });
-
-    res.status(200).json(category);
-  } catch (error) {
-    res.status(400).json({ message: 'Erro ao buscar categoria', error: error.message });
-  }
-};
-
-exports.createCategory = async (req, res) => {
-  try {
-    const { name, slug, use_in_menu } = req.body;
-    await Category.create({ name, slug, use_in_menu });
-    res.status(201).json({ message: 'Categoria criada com sucesso' });
-  } catch (error) {
-    res.status(400).json({ message: 'Erro ao criar categoria', error: error.message });
-  }
-};
-
-exports.updateCategory = async (req, res) => {
-  try {
-    const category = await Category.findByPk(req.params.id);
-    if (!category) return res.status(404).json({ message: 'Categoria não encontrada' });
-
-    const { name, slug, use_in_menu } = req.body;
-    await category.update({ name, slug, use_in_menu });
-
-    res.status(204).send();
-  } catch (error) {
-    res.status(400).json({ message: 'Erro ao atualizar categoria', error: error.message });
-  }
-};
-
-exports.deleteCategory = async (req, res) => {
-  try {
-    const category = await Category.findByPk(req.params.id);
-    if (!category) return res.status(404).json({ message: 'Categoria não encontrada' });
-
-    await category.destroy();
-    res.status(204).send();
-  } catch (error) {
-    res.status(400).json({ message: 'Erro ao deletar categoria', error: error.message });
-  }
-};
+export default CategoryList;
