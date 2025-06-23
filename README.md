@@ -21,9 +21,10 @@ Siga os passos abaixo para configurar e executar a API em seu ambiente de desenv
 ### 1. Crie o Banco de Dados
 
 No seu servidor MySQL, crie um novo banco de dados com o nome `ecommerce`:
-
-'''sql
+---
+````sql
 CREATE DATABASE ecommerce;
+`````
 ---
 
 ### 2. Configure o Arquivo .env
