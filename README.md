@@ -26,7 +26,7 @@ sql
 CREATE DATABASE ecommerce;
 ---
 
-###2. Configure o Arquivo .env
+### 2. Configure o Arquivo .env
 Na raiz do projeto, crie um arquivo chamado .env e adicione suas credenciais do MySQL e a chave secreta para JWT.
 Substitua seu_usuario, sua_senha e sua_chave_secreta pelas suas informações.
 
@@ -41,14 +41,14 @@ JWT_SECRET=sua_chave_secreta
 PORT=3000
 
 
-###3. Instale as Dependências
+### 3. Instale as Dependências
 
 Abra o terminal na raiz do projeto e execute o comando para instalar todas as dependências necessárias:
 ---
 npm install
 ---
 
-###4. Execute o Servidor
+### 4. Execute o Servidor
 
 Você tem duas opções para iniciar o servidor:
 
@@ -62,7 +62,7 @@ Modo de Produção (sem hot reload):
 npm start
 ----
 
-###5. Teste a API
+### 5. Teste a API
 
 Com o servidor rodando, abra seu navegador ou use um cliente HTTP (como Postman ou Insomnia) e acesse a URL base da API:
 ---
