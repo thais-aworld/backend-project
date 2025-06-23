@@ -62,7 +62,6 @@ Modo de Desenvolvimento (com hot reload - recomendado para desenvolvimento):
 npm run dev
 ````
 ---
-
 Modo de Produção (sem hot reload):
 ----
 ````Bash
@@ -78,7 +77,6 @@ Com o servidor rodando, abra seu navegador ou use um cliente HTTP (como Postman 
 http://localhost:3000/
 ````
 ---
-
 Você deverá ver a seguinte resposta em formato JSON:
 ---
 ````JSON
