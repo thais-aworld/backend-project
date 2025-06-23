@@ -1,1 +1,4 @@
-export const API_BASE_URL = 'https://backend-api-9fdu.onrender.com';
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'API Ecommerce Project rodando 🚀' });
+});
+
