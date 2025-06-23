@@ -1,6 +1,6 @@
 # 🚀 Ecommerce Backend API
 
-Este é o projeto de backend para o "Ecommerce Project", responsável por gerenciar toda a lógica de negócios e persistência de dados.
+Este é o projeto backend para o ecommerce-project (https://github.com/thais-aworld/ecommerce-project.git)
 
 ---
 
